@@ -20,15 +20,11 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> elencoStudenti;
     ArrayList<String> studenti4B;
     ArrayList<String> studenti4A;
+    ArrayList<String> studenti1A;
+    ArrayList<String> studenti2A;
     ArrayAdapter gruppiAdapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+    private void setupGroups() {
         studenti4B = new ArrayList<String>();
 
         // Carico gli studenti di 4B
@@ -81,11 +77,67 @@ public class MainActivity extends AppCompatActivity {
         studenti4A.add("Volpe Riccardo");
         studenti4A.add("Yoada Abdoulazize");
 
+        studenti1A = new ArrayList<String>();
+
+        studenti1A.add("AHMADI ADAM");
+        studenti1A.add("ARDISSONO TOMMASO");
+        studenti1A.add("BACCIN GIORGIA");
+        studenti1A.add("BALDISSERA PAOLO");
+        studenti1A.add("COLLA TOMMASO");
+        studenti1A.add("GAFFO VALENTINO");
+        studenti1A.add("GAZZOLA GIACOMO");
+        studenti1A.add("GAZZOLA MARTA CESARINA");
+        studenti1A.add("GERLIN FRANCESCO");
+        studenti1A.add("GERONAZZO LUDOVICO");
+        studenti1A.add("GHELLER DENISE");
+        studenti1A.add("GOTTARDO GIOVANNI");
+        studenti1A.add("GRIGOLETTO LUCA");
+        studenti1A.add("LALA DEBORA");
+        studenti1A.add("LO PORTO LUCA");
+        studenti1A.add("MELARA CHIARA");
+        studenti1A.add("MILANESE GAIA");
+        studenti1A.add("NOAL ELENA");
+        studenti1A.add("PICCOLOTTO MICHAEL");
+        studenti1A.add("TRENTIN EDOARDO");
+        studenti1A.add("VAGLICA ANDREA");
+        studenti1A.add("VILLANOVA LORENZO");
+        studenti1A.add("ZANATTA MARZIA");
+        studenti1A.add("ZANESCO GIORGIA");
+
+        studenti2A = new ArrayList<String>();
+
+        studenti2A.add("CANELLO GABRIELE");
+        studenti2A.add("CECCACCI MARCO");
+        studenti2A.add("DA RIVA SABRINA");
+        studenti2A.add("EL AIDI YASSIN");
+        studenti2A.add("EL BASRAOUI YOUSSEF");
+        studenti2A.add("FACIN EMILIANO");
+        studenti2A.add("KURTOVIC ELVIS");
+        studenti2A.add("LAANAOUI HAMZA");
+        studenti2A.add("MAZZERO LORENZO");
+        studenti2A.add("MENIN GIANLUCA");
+        studenti2A.add("PELLIZZARI NICOLAS");
+        studenti2A.add("PRECOMA ROBERTO");
+        studenti2A.add("RIMENSI ALESSIO");
+        studenti2A.add("SOLIGO RAFFAELE");
+        studenti2A.add("TONIN GIOVANNI");
+        studenti2A.add("ZORZI FILIPPO");
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        setupGroups();
+
         // Riordina a caso studenti4B
         int a, b;
         Random rn = new Random();
         System.out.println("4A: " + studenti4B);
-        for (int i=0; i<studenti4A.size(); i++) {
+        for (int i = 0; i < studenti4A.size(); i++) {
             a = rn.nextInt(studenti4A.size());
             b = rn.nextInt(studenti4A.size());
             //System.out.println(a + " " + b+ " " + studenti4B.size());
@@ -99,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("4A: " + studenti4A);
         System.out.println("Elenco: " + elencoStudenti);
 
-        gruppiAdapter = new ArrayAdapter<String>(this, R.layout.rowgruppo, R.id.list_item_gruppo,elencoStudenti);
+        gruppiAdapter = new ArrayAdapter<String>(this, R.layout.rowgruppo, R.id.list_item_gruppo, elencoStudenti);
         ListView lv = (ListView) findViewById(R.id.listaGruppi);
         lv.setAdapter(gruppiAdapter);
 
@@ -137,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
             // Riordina a caso studenti4B
             int a, b;
             Random rn = new Random();
-            for (int i=0; i<studenti4B.size(); i++) {
+            for (int i = 0; i < studenti4B.size(); i++) {
                 a = rn.nextInt(studenti4B.size());
                 b = rn.nextInt(studenti4B.size());
                 //System.out.println(a + " " + b+ " " + studenti4B.size());
@@ -152,12 +204,12 @@ public class MainActivity extends AppCompatActivity {
             //gruppiAdapter.addAll(elencoStudenti);
             System.out.println("4B: " + studenti4B);
             System.out.println("Elenco: " + elencoStudenti);
-        } else if (id==R.id.random4A) {
+        } else if (id == R.id.random4A) {
             // Mescolo A
             // Riordina a caso studenti4B
             int a, b;
             Random rn = new Random();
-            for (int i=0; i<studenti4A.size(); i++) {
+            for (int i = 0; i < studenti4A.size(); i++) {
                 a = rn.nextInt(studenti4A.size());
                 b = rn.nextInt(studenti4A.size());
                 //System.out.println(a + " " + b+ " " + studenti4B.size());
@@ -165,12 +217,52 @@ public class MainActivity extends AppCompatActivity {
                 studenti4A.set(a, studenti4A.get(b));
                 studenti4A.set(b, temp);
             }
-
             // scelgo casuali
             gruppiAdapter.clear();
             elencoStudenti.addAll(studenti4A);
             //gruppiAdapter.addAll(elencoStudenti);
             System.out.println("4A: " + studenti4A);
+            System.out.println("Elenco: " + elencoStudenti);
+
+        } else if (id == R.id.random1A) {
+            // Mescolo A
+            // Riordina a caso studenti4B
+            int a, b;
+            Random rn = new Random();
+            for (int i = 0; i < studenti1A.size(); i++) {
+                a = rn.nextInt(studenti1A.size());
+                b = rn.nextInt(studenti1A.size());
+                //System.out.println(a + " " + b+ " " + studenti4B.size());
+                String temp = studenti1A.get(a);
+                studenti1A.set(a, studenti1A.get(b));
+                studenti1A.set(b, temp);
+            }
+
+            // scelgo casuali
+            gruppiAdapter.clear();
+            elencoStudenti.addAll(studenti1A);
+            //gruppiAdapter.addAll(elencoStudenti);
+            System.out.println("1A: " + studenti1A);
+            System.out.println("Elenco: " + elencoStudenti);
+        } else if (id == R.id.random2A) {
+            // Mescolo A
+            // Riordina a caso studenti4B
+            int a, b;
+            Random rn = new Random();
+            for (int i = 0; i < studenti2A.size(); i++) {
+                a = rn.nextInt(studenti2A.size());
+                b = rn.nextInt(studenti2A.size());
+                //System.out.println(a + " " + b+ " " + studenti4B.size());
+                String temp = studenti2A.get(a);
+                studenti2A.set(a, studenti2A.get(b));
+                studenti2A.set(b, temp);
+            }
+
+            // scelgo casuali
+            gruppiAdapter.clear();
+            elencoStudenti.addAll(studenti2A);
+            //gruppiAdapter.addAll(elencoStudenti);
+            System.out.println("1A: " + studenti2A);
             System.out.println("Elenco: " + elencoStudenti);
         }
 

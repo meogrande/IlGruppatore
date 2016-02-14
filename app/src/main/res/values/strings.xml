@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">IlGruppatore</string>
     <string name="action_settings">Settings</string>
-    <string name="random_4b" >4B</string>
-    <string name="random_4a" >4A</string>
+    <string name="random_4b" >4B Informatica</string>
+    <string name="random_4a" >4A Informatica</string>
+    <string name="random_1a">1A Grafica</string>
+    <string name="random_2a">2AB ELN-INF</string>
 </resources>

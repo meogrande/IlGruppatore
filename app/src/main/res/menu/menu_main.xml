@@ -8,11 +8,20 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
-        android:id="@+id/random4B"
-        android:title="@string/random_4b"
+        android:id="@+id/random1A"
+        android:title="@string/random_1a"
+        />
+    <item
+        android:id="@+id/random2A"
+        android:title="@string/random_2a"
         />
     <item
         android:id="@+id/random4A"
         android:title="@string/random_4a"
         />
+    <item
+        android:id="@+id/random4B"
+        android:title="@string/random_4b"
+        />
+
 </menu>
