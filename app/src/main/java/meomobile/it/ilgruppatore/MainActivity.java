@@ -1,9 +1,15 @@
 package meomobile.it.ilgruppatore;
 
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -12,17 +18,25 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+
 import java.util.ArrayList;
 import java.util.Random;
 
+import meomobile.it.ilgruppatore.database.GroupContract;
+import meomobile.it.ilgruppatore.database.GroupDbHelper;
+
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> elencoStudenti;
-    ArrayList<String> studenti4B;
-    ArrayList<String> studenti4A;
-    ArrayList<String> studenti1A;
-    ArrayList<String> studenti2A;
-    ArrayAdapter gruppiAdapter;
+    private ArrayList<String> elencoStudenti;
+    private ArrayList<String> studenti4B;
+    private ArrayList<String> studenti4A;
+    private ArrayList<String> studenti1A;
+    private ArrayList<String> studenti2A;
+    private ArrayAdapter gruppiAdapter;
+    private String classeSelezionata;
+
+    private Intent mShareIntent;
+    private ShareActionProvider mShareActionProvider;
 
     private void setupGroups() {
         studenti4B = new ArrayList<String>();
@@ -104,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         studenti1A.add("ZANATTA MARZIA");
         studenti1A.add("ZANESCO GIORGIA");
 
-        studenti2A = new ArrayList<String>();
+        studenti2A = new ArrayList<>();
 
         studenti2A.add("CANELLO GABRIELE");
         studenti2A.add("CECCACCI MARCO");
@@ -134,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         setupGroups();
 
         // Riordina a caso studenti4B
+        classeSelezionata = "4A";
         int a, b;
         Random rn = new Random();
         System.out.println("4A: " + studenti4B);
@@ -162,7 +177,57 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Un giorno salverà... ma non oggi!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
+                // Provo a salvare sul database
+                // Salvo anche su db
+                GroupDbHelper gdh = new GroupDbHelper(getBaseContext());
+                // Gets the data repository in write mode
+                SQLiteDatabase db = gdh.getWritableDatabase();
 
+                // Create a new map of values, where column names are the keys
+                ContentValues values = new ContentValues();
+                values.put(GroupContract.GroupEntry.COLUMN_NAME_CLASSE, classeSelezionata);
+                values.put(GroupContract.GroupEntry.COLUMN_NAME_LISTA, elencoStudenti.toString());
+
+                // Insert the new row, returning the primary key value of the new row
+                long newRowId;
+                newRowId = db.insert(
+                        GroupContract.GroupEntry.TABLE_NAME,
+                        null,
+                        values);
+
+
+                // Legge i dati dal db
+                String[] projection = {
+                        GroupContract.GroupEntry.COLUMN_NAME_ID,
+                        GroupContract.GroupEntry.COLUMN_NAME_CLASSE,
+                        GroupContract.GroupEntry.COLUMN_NAME_LISTA,
+                        GroupContract.GroupEntry.COLUMN_NAME_DATA
+                };
+
+                // How you want the results sorted in the resulting Cursor
+                String sortOrder =
+                        GroupContract.GroupEntry.COLUMN_NAME_DATA + " DESC";
+
+                Cursor c = db.query(
+                        GroupContract.GroupEntry.TABLE_NAME,  // The table to query
+                        projection,                               // The columns to return
+                        null,                                // The columns for the WHERE clause
+                        null,                            // The values for the WHERE clause
+                        null,                                     // don't group the rows
+                        null,                                     // don't filter by row groups
+                        sortOrder                                 // The sort order
+                );
+
+                while (c.moveToNext()) {
+                    System.out.println(c.getString(0));
+                    System.out.println(c.getString(1));
+                    System.out.println(c.getString(2));
+                    System.out.println(c.getString(3));
+                }
+
+
+                System.out.println(c.getCount());
+                System.out.println(c.moveToNext());
             }
         });
     }
@@ -171,6 +236,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        // Locat MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.action_share);
+
+        // Store Action Provider
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+        mShareIntent = new Intent();
+        mShareIntent.setAction(Intent.ACTION_SEND);
+        mShareIntent.setType("text/plain");
+        mShareIntent.putExtra(Intent.EXTRA_TEXT, "Select something");
+
+        mShareActionProvider.setShareIntent(mShareIntent);
+
         return true;
     }
 
@@ -185,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.random4B) {
+            classeSelezionata = "4B";
             // Mescolo B
             // Riordina a caso studenti4B
             int a, b;
@@ -205,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("4B: " + studenti4B);
             System.out.println("Elenco: " + elencoStudenti);
         } else if (id == R.id.random4A) {
+            classeSelezionata = "4A";
             // Mescolo A
             // Riordina a caso studenti4B
             int a, b;
@@ -225,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("Elenco: " + elencoStudenti);
 
         } else if (id == R.id.random1A) {
+            classeSelezionata = "1A";
             // Mescolo A
             // Riordina a caso studenti4B
             int a, b;
@@ -245,6 +327,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("1A: " + studenti1A);
             System.out.println("Elenco: " + elencoStudenti);
         } else if (id == R.id.random2A) {
+            classeSelezionata = "2A";
             // Mescolo A
             // Riordina a caso studenti4B
             int a, b;
@@ -265,6 +348,8 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("1A: " + studenti2A);
             System.out.println("Elenco: " + elencoStudenti);
         }
+
+        mShareIntent.putExtra(Intent.EXTRA_TEXT, elencoStudenti.toString());
 
         return super.onOptionsItemSelected(item);
     }
