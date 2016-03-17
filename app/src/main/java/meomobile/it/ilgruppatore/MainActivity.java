@@ -11,13 +11,11 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         studenti4B.add("Zanella Igor ");
         studenti4B.add("Zhiqiang Zhou");
 
-        studenti4A = new ArrayList<String>();
+        studenti4A = new ArrayList<>();
 
         studenti4A.add("Adami Alessandro");
         studenti4A.add("Bachmatchi George Daniel");
@@ -91,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         studenti4A.add("Volpe Riccardo");
         studenti4A.add("Yoada Abdoulazize");
 
-        studenti1A = new ArrayList<String>();
+        studenti1A = new ArrayList<>();
 
         studenti1A.add("AHMADI ADAM");
         studenti1A.add("ARDISSONO TOMMASO");
@@ -161,20 +159,23 @@ public class MainActivity extends AppCompatActivity {
             studenti4A.set(b, temp);
         }
 
-        elencoStudenti = new ArrayList<String>(studenti4A);
+        elencoStudenti = new ArrayList<>(studenti4A);
 
         System.out.println("4A: " + studenti4A);
         System.out.println("Elenco: " + elencoStudenti);
 
         gruppiAdapter = new ArrayAdapter<String>(this, R.layout.rowgruppo, R.id.list_item_gruppo, elencoStudenti);
         ListView lv = (ListView) findViewById(R.id.listaGruppi);
-        lv.setAdapter(gruppiAdapter);
+        if (lv != null) {
+            lv.setAdapter(gruppiAdapter);
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Un giorno salverà... ma non oggi!", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Salvo il gruppo! Un giorno potrai recuperare il salvataggio!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
                 // Provo a salvare sul database

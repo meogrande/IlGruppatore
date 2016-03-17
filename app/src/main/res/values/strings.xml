@@ -5,4 +5,8 @@
     <string name="random_4a" translatable="false">4A Informatica</string>
     <string name="random_1a" translatable="false">1A Grafica</string>
     <string name="random_2a" translatable="false">2AB ELN-INF</string>
+
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
