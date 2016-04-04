@@ -1,6 +1,7 @@
 package meomobile.it.ilgruppatore;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import meomobile.it.ilgruppatore.database.GroupContract;
@@ -30,11 +33,19 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> studenti4A;
     private ArrayList<String> studenti1A;
     private ArrayList<String> studenti2A;
+
+    private ArrayList<String> studenti3F;
+    private ArrayList<String> studenti3E;
+
+    private ArrayList<String> base; //usato come base
+
     private ArrayAdapter gruppiAdapter;
     private String classeSelezionata;
 
     private Intent mShareIntent;
     private ShareActionProvider mShareActionProvider;
+
+    private Context context = this;
 
     private void setupGroups() {
         studenti4B = new ArrayList<String>();
@@ -107,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         studenti1A.add("LALA DEBORA");
         studenti1A.add("LO PORTO LUCA");
         studenti1A.add("MELARA CHIARA");
-        studenti1A.add("MILANESE GAIA");
+        //studenti1A.add("MILANESE GAIA"); // Ritirata
         studenti1A.add("NOAL ELENA");
         studenti1A.add("PICCOLOTTO MICHAEL");
         studenti1A.add("TRENTIN EDOARDO");
@@ -134,6 +145,55 @@ public class MainActivity extends AppCompatActivity {
         studenti2A.add("SOLIGO RAFFAELE");
         studenti2A.add("TONIN GIOVANNI");
         studenti2A.add("ZORZI FILIPPO");
+/*
+        studenti3F = new ArrayList<>();
+        studenti3F.add("Bongiorno Giuseppe");
+        studenti3F.add("Bruno Francesco");
+        studenti3F.add("Caniglia Matteo");
+        studenti3F.add("Cavallaro Gabriele");
+        studenti3F.add("Donzuso Francesc");
+        studenti3F.add("Driza Ergi");
+        studenti3F.add("Finocchiaro Francesco");
+        studenti3F.add("Leonardi Orazio");
+        studenti3F.add("Gambino Francesco");
+        studenti3F.add("Marino Lucrezia");
+        studenti3F.add("Messina Michela");
+        studenti3F.add("Pellegrino Yasmine");
+        studenti3F.add("Puglisi Emanuele");
+        studenti3F.add("Russo Giusi");
+        studenti3F.add("Sciuto Valerio");
+        studenti3F.add("Spina Lara");
+        studenti3F.add("Tomarchio Alessio");
+        studenti3F.add("Triolo Tiziano");
+
+        studenti3E = new ArrayList<>();
+        studenti3E.add("Bruno Giorgia");
+        studenti3E.add("Castiglione Alessio");
+        studenti3E.add("Coco Francesco");
+        studenti3E.add("D'Avino Raul");
+        studenti3E.add("Dumitru Alexandru");
+        studenti3E.add("La Spina Irene");
+        studenti3E.add("La Spina Venera");
+        studenti3E.add("Lizzio Andrea");
+        studenti3E.add("Nicotra Martina");
+        studenti3E.add("Patane Massimo");
+        studenti3E.add("Quattrocchi Emanuele");
+        studenti3E.add("Quattrocchi Marilyn");
+        studenti3E.add("Sciacca Salvatore");
+        studenti3E.add("Spina Agnese");
+        studenti3E.add("Triolo Patrick");
+        studenti3E.add("Trovato Sebastiano");
+        studenti3E.add("Zagarini MariaLaura");*/
+    }
+
+    private void random(ArrayList<String> lista) {
+        Collections.shuffle(lista);
+        // scelgo casuali
+        gruppiAdapter.clear();
+        elencoStudenti.addAll(lista);
+        //gruppiAdapter.addAll(elencoStudenti);
+        System.out.println(classeSelezionata + ": " + lista);
+        System.out.println("Elenco: " + elencoStudenti);
     }
 
     @Override
@@ -145,36 +205,31 @@ public class MainActivity extends AppCompatActivity {
 
         setupGroups();
 
-        // Riordina a caso studenti4B
-        classeSelezionata = "4A";
-        int a, b;
-        Random rn = new Random();
-        System.out.println("4A: " + studenti4B);
-        for (int i = 0; i < studenti4A.size(); i++) {
-            a = rn.nextInt(studenti4A.size());
-            b = rn.nextInt(studenti4A.size());
-            //System.out.println(a + " " + b+ " " + studenti4B.size());
-            String temp = studenti4A.get(a);
-            studenti4A.set(a, studenti4A.get(b));
-            studenti4A.set(b, temp);
-        }
+        // Metto un array di base
+        base = studenti3E;
+        elencoStudenti = new ArrayList<String>();
+        elencoStudenti.addAll(base);
 
-        elencoStudenti = new ArrayList<>(studenti4A);
-
-        System.out.println("4A: " + studenti4A);
-        System.out.println("Elenco: " + elencoStudenti);
-
+        // Imposto l'adapter della lista
         gruppiAdapter = new ArrayAdapter<String>(this, R.layout.rowgruppo, R.id.list_item_gruppo, elencoStudenti);
         ListView lv = (ListView) findViewById(R.id.listaGruppi);
         if (lv != null) {
             lv.setAdapter(gruppiAdapter);
         }
 
+        // Riordina a caso
+        random(base);
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog dialog = new AlertDialog.Builder(context).create();
+                dialog.setCancelable(true);
+                dialog.show();
+
                 Snackbar.make(view, "Salvo il gruppo! Un giorno potrai recuperare il salvataggio!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
@@ -264,7 +319,19 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        } else if (id == R.id.random4B) {
+        } else if (id == R.id.random3E) {
+            classeSelezionata = "3E";
+            base = studenti3E;
+            // Mescolo B
+            // Riordina a caso studenti4B
+            random(base);
+        } else if (id == R.id.random3F) {
+            classeSelezionata = "3F";
+            base = studenti3F;
+            random(base);
+        }
+
+        /*else if (id == R.id.random4B) {
             classeSelezionata = "4B";
             // Mescolo B
             // Riordina a caso studenti4B
@@ -348,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
             //gruppiAdapter.addAll(elencoStudenti);
             System.out.println("1A: " + studenti2A);
             System.out.println("Elenco: " + elencoStudenti);
-        }
+        }*/
 
         mShareIntent.putExtra(Intent.EXTRA_TEXT, elencoStudenti.toString());
 
