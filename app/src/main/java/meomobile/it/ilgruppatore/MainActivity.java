@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
         setupGroups();
 
         // Metto un array di base
-        base = studenti3E;
+        base = studenti4A;
         elencoStudenti = new ArrayList<String>();
         elencoStudenti.addAll(base);
 
