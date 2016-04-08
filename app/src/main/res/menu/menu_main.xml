@@ -7,7 +7,7 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
-    <!--<item
+    <item
         android:id="@+id/random1A"
         android:title="@string/random_1a"
         />
@@ -21,15 +21,14 @@
         />
     <item
         android:id="@+id/random4B"
-        android:title="@string/random_4b"
-        />-->
-    <item
+        android:title="@string/random_4b" />
+    <!--<item
         android:id="@+id/random3E"
         android:title="Terza E"
         />
     <item
         android:id="@+id/random3F"
-        android:title="Terza F" />
+        android:title="Terza F" />-->
     <item
         android:id="@+id/action_share"
         android:title="Share"

@@ -90,7 +90,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void toggle() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, ListActivity.class);
         startActivity(i);
         /*if (mVisible) {
             hide();

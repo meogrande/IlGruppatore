@@ -12,7 +12,7 @@ public final class DatabaseContract {
     }
 
     /* Definisce il contentuto della classe gruppo*/
-    public static abstract class GroupEntry implements BaseColumns {
+    public static abstract class ListEntry implements BaseColumns {
         public static final String TABLE_NAME = "list";
         public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_LISTA = "list";
@@ -21,8 +21,8 @@ public final class DatabaseContract {
     }
 
     /* Tabella classi */
-    public static abstract class ClassEntry implements BaseColumns {
-        public static final String TABLE_NAME = "class";
+    public static abstract class TeamEntry implements BaseColumns {
+        public static final String TABLE_NAME = "team";
         public static final String COLUMN_NAME_NAME = "name";
     }
 }

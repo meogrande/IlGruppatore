@@ -10,26 +10,28 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import meomobile.it.ilgruppatore.database.DatabaseContract.GroupEntry;
+import meomobile.it.ilgruppatore.database.DatabaseContract.ListEntry;
 
 /**
  * Creato da fabio on 29/02/2016.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 8;
+    public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "mrgroup.db";
 
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
-    private static final String SQL_CREATE_GROUP =
+    private static final String SQL_CREATE_LIST =
             "CREATE TABLE list (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, class TEXT, list TEXT, data DATE DEFAULT (datetime('now')) )";
-    private static final String SQL_CREATE_CLASS =
-            "CREATE TABLE class (name TEXT PRIMARY KEY NOT NULL)";
+    private static final String SQL_CREATE_TEAM =
+            "CREATE TABLE team (name TEXT PRIMARY KEY NOT NULL)";
+    private static final String SQL_CREATE_STUDENT =
+            "CREATE TABLE student (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, team TEXT)";
 
     private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + GroupEntry.TABLE_NAME + ";" +
-                    "DROP TABLE IF EXISTS " + DatabaseContract.ClassEntry.TABLE_NAME + ";";
+            "DROP TABLE IF EXISTS " + ListEntry.TABLE_NAME + ";" +
+                    "DROP TABLE IF EXISTS " + DatabaseContract.TeamEntry.TABLE_NAME + ";";
 
     private Context context;
 
@@ -44,8 +46,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param db
      */
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_GROUP);
-        db.execSQL(SQL_CREATE_CLASS);
+        db.execSQL(SQL_CREATE_LIST);
+        db.execSQL(SQL_CREATE_TEAM);
+        db.execSQL(SQL_CREATE_STUDENT);
 
         // Aggiungo i dati standard nel database caricandoli da file
         BufferedReader br = null;

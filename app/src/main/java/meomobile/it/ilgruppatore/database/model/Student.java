@@ -1,26 +1,25 @@
 package meomobile.it.ilgruppatore.database.model;
 
 /**
- * Creato da fabio on 05/04/2016.
+ * Creato da fabio on 08/04/2016.
  */
 public class Student {
     String name;
-    Float vote;
+    String team;
 
-    public Student(String name, Float vote) {
-        this.vote = vote;
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Float getVote() {
-        return vote;
+    public String getTeam() {
+        return team;
     }
 }
