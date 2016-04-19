@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/tvVote"
-        android:layout_alignBottom="@+id/switch1"
+        android:layout_alignBottom="@+id/switchVote"
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical" />
 

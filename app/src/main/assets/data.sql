@@ -2,6 +2,7 @@ insert into team (name) values ("4A INF");
 insert into team (name) values ("4B INF");
 insert into team (name) values ("1A GRA");
 insert into team (name) values ("2AB INF");
+insert into task (team, data) values ("4B INF", "2016-01-01 11:00:00");
 insert into student (name, team) values ("Basso Andrea", "4B INF");
 insert into student (name, team) values ("Basso Matteo", "4B INF");
 insert into student (name, team) values ("Ben Khalifa Youssef ", "4B INF");
