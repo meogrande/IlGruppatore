@@ -130,31 +130,30 @@ public class MainActivity extends AppCompatActivity {
 
                 // Create a new map of values, where column names are the keys
                 ContentValues values = new ContentValues();
-                values.put(DatabaseContract.ListEntry.COLUMN_NAME_CLASSE, classeSelezionata);
-                values.put(DatabaseContract.ListEntry.COLUMN_NAME_LISTA, elencoStudenti.toString());
+                values.put(DatabaseContract.ResultEntry.COLUMN_NAME_CLASSE, classeSelezionata);
+                values.put(DatabaseContract.ResultEntry.COLUMN_NAME_LISTA, elencoStudenti.toString());
 
                 // Insert the new row, returning the primary key value of the new row
                 long newRowId;
                 newRowId = db.insert(
-                        DatabaseContract.ListEntry.TABLE_NAME,
+                        DatabaseContract.ResultEntry.TABLE_NAME,
                         null,
                         values);
 
 
                 // Legge i dati dal db
                 String[] projection = {
-                        DatabaseContract.ListEntry.COLUMN_NAME_ID,
-                        DatabaseContract.ListEntry.COLUMN_NAME_CLASSE,
-                        DatabaseContract.ListEntry.COLUMN_NAME_LISTA,
-                        DatabaseContract.ListEntry.COLUMN_NAME_DATA
+                        DatabaseContract.ResultEntry.COLUMN_NAME_ID,
+                        DatabaseContract.ResultEntry.COLUMN_NAME_CLASSE,
+                        DatabaseContract.ResultEntry.COLUMN_NAME_LISTA,
                 };
 
                 // How you want the results sorted in the resulting Cursor
                 String sortOrder =
-                        DatabaseContract.ListEntry.COLUMN_NAME_DATA + " DESC";
+                        " ";
 
                 Cursor c = db.query(
-                        DatabaseContract.ListEntry.TABLE_NAME,  // The table to query
+                        DatabaseContract.ResultEntry.TABLE_NAME,  // The table to query
                         projection,                               // The columns to return
                         null,                                // The columns for the WHERE clause
                         null,                            // The values for the WHERE clause

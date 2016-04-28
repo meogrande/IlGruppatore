@@ -12,20 +12,18 @@ public final class DatabaseContract {
     }
 
     /* Definisce il contentuto della classe gruppo*/
-    public static abstract class ListEntry implements BaseColumns {
-        public static final String TABLE_NAME = "list";
+    public static abstract class ResultEntry implements BaseColumns {
+        public static final String TABLE_NAME = "result";
         public static final String COLUMN_NAME_ID = "id";
-        public static final String COLUMN_NAME_LISTA = "list";
-        public static final String COLUMN_NAME_CLASSE = "class";
-        public static final String COLUMN_NAME_DATA = "data";
+        public static final String COLUMN_NAME_LISTA = "idstudent";
+        public static final String COLUMN_NAME_CLASSE = "result";
 
         // SQL per creare la tabella
         static final String SQL_CREATE =
-                "CREATE TABLE list (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, class TEXT, list TEXT, data DATE DEFAULT (datetime('now')) )";
+                "CREATE TABLE " + TABLE_NAME + " (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idstudent INTEGER, result REAL DEFAULT 0)";
         // SQL per cancellare la tabella
         static final String SQL_DROPTABLE =
                 "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
-
     }
 
     /* Tabella classi */
@@ -35,22 +33,22 @@ public final class DatabaseContract {
 
         // SQL per creare la tabella
         static final String SQL_CREATE =
-                "CREATE TABLE team (name TEXT PRIMARY KEY NOT NULL)";
+                "CREATE TABLE team (" + COLUMN_NAME_NAME + " TEXT PRIMARY KEY NOT NULL)";
         // SQL per cancellare la tabella
         static final String SQL_DROPTABLE =
                 "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
-
     }
 
     /* Tabella task */
     public static abstract class TaskEntry implements BaseColumns {
         public static final String TABLE_NAME = "task";
         public static final String COLUMN_NAME_ID = "team";
+        public static final String COLUMN_NAME_NAME = "name";
         public static final String COLUMN_NAME_TEAM = "team";
         public static final String COLUMN_NAME_DATA = "data";
         // SQL per creare la tabella
         static final String SQL_CREATE =
-                "CREATE TABLE task (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, team TEXT, data DATE DEFAULT (datetime('now')))";
+                "CREATE TABLE task (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, team TEXT, data DATE DEFAULT (datetime('now')))";
         // SQL per cancellare la tabella
         static final String SQL_DROPTABLE =
                 "DROP TABLE IF EXISTS " + TABLE_NAME + ";";

@@ -1,17 +1,24 @@
 package meomobile.it.ilgruppatore;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import meomobile.it.ilgruppatore.database.DatabaseContract;
 import meomobile.it.ilgruppatore.database.DatabaseHelper;
 
-public class TaskActivity extends AppCompatActivity {
+public class TaskListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,30 @@ public class TaskActivity extends AppCompatActivity {
             itemsAdapter.add(c.getString(2));
             System.out.println(c.getString(0) + " " + c.getString(1) + " " + c.getString(2));
         }
+
+        // Aggiungo un foating button
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_tasklist);
+        assert fab != null;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Apro una dialog per inserire il nome del nuovo task
+                Log.d("Debug", "Clicco sul fab");
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
+                alertDialogBuilder.setMessage("Are you sure,You wanted to make decision");
+                LayoutInflater inflater = ((Activity) v.getContext()).getLayoutInflater();
+                alertDialogBuilder.setView(inflater.inflate(R.layout.dialog_newtask, null));
+                alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("fab_ok", "Premo Ok");
+                    }
+                });
+                AlertDialog ad = alertDialogBuilder.create();
+                ad.show();
+            }
+        });
 
     }
 }

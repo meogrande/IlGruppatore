@@ -10,14 +10,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import meomobile.it.ilgruppatore.database.DatabaseContract.ListEntry;
-
 /**
  * Creato da fabio on 29/02/2016.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "mrgroup.db";
 
     private static final String TEXT_TYPE = " TEXT";
@@ -36,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param db
      */
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DatabaseContract.ListEntry.SQL_CREATE);
+        db.execSQL(DatabaseContract.ResultEntry.SQL_CREATE);
         db.execSQL(DatabaseContract.TeamEntry.SQL_CREATE);
         db.execSQL(DatabaseContract.StudentEntry.SQL_CREATE);
         db.execSQL(DatabaseContract.TaskEntry.SQL_CREATE);
@@ -74,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DatabaseContract.StudentEntry.SQL_DROPTABLE);
         db.execSQL(DatabaseContract.TeamEntry.SQL_DROPTABLE);
         db.execSQL(DatabaseContract.TaskEntry.SQL_DROPTABLE);
-        db.execSQL(DatabaseContract.ListEntry.SQL_DROPTABLE);
+        db.execSQL(DatabaseContract.ResultEntry.SQL_DROPTABLE);
         onCreate(db);
     }
 

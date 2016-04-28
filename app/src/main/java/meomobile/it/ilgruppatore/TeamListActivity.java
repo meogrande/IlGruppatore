@@ -53,7 +53,7 @@ public class TeamListActivity extends AppCompatActivity {
                 // Qui ho tutto quello che mi serve!
                 String team = itemsAdapter.getItem(position);
                 // Lancio l'activity con l'elenco dei task e passo la classe
-                Intent i = new Intent(getApplicationContext(), TaskActivity.class);
+                Intent i = new Intent(getApplicationContext(), TaskListActivity.class);
                 i.putExtra("team", team);
                 startActivity(i);
             }

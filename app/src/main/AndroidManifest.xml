@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".TeamListActivity" />
-        <activity android:name=".TaskActivity"></activity>
+        <activity android:name=".TaskListActivity"></activity>
     </application>
 
 </manifest>
