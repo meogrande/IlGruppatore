@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import meomobile.it.ilgruppatore.database.DatabaseContract;
 import meomobile.it.ilgruppatore.database.DatabaseHelper;
@@ -26,7 +27,7 @@ public class TaskListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tasklist);
 
         Intent i = getIntent();
-        String team = i.getExtras().getString("team");
+        final String team = i.getExtras().getString("team");
 
         // Carico la lista dei gruppi dal database
         // Salvo anche su db
@@ -46,7 +47,7 @@ public class TaskListActivity extends AppCompatActivity {
         );
 
         ListView lv = (ListView) findViewById(R.id.listView_tasks);
-        final ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, R.layout.rowtask, R.id.list_item_task);
+        final ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, R.layout.rowtask, R.id.list_item_task_date);
         lv.setAdapter(itemsAdapter);
 
         /*Carico la lista con le classi. Se premo una classe vedo tutti i compiti salvati*/
@@ -54,6 +55,7 @@ public class TaskListActivity extends AppCompatActivity {
             itemsAdapter.add(c.getString(2));
             System.out.println(c.getString(0) + " " + c.getString(1) + " " + c.getString(2));
         }
+        db.close();
 
         // Aggiungo un foating button
 
@@ -65,15 +67,28 @@ public class TaskListActivity extends AppCompatActivity {
                 // Apro una dialog per inserire il nome del nuovo task
                 Log.d("Debug", "Clicco sul fab");
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
-                alertDialogBuilder.setMessage("Are you sure,You wanted to make decision");
+                alertDialogBuilder.setMessage("Nome compito");
                 LayoutInflater inflater = ((Activity) v.getContext()).getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.dialog_newtask, null));
                 alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d("fab_ok", "Premo Ok");
+                        // Recupero il valore inserito nella casella di testo
+                        TextView tv = (TextView) ((AlertDialog) dialog).findViewById(R.id.username);
+                        Log.d("fab_ok", tv.getText().toString());//dialog.findViewById(R.id.username)
+                        String name = tv.getText().toString();
+                        //Lo inserisco nel database
+                        // Lancio la query per aggiungere un compito e ricarico la pagina sottostante
+                        DatabaseHelper gdh = new DatabaseHelper(getBaseContext());
+                        // Gets the data repository in write mode
+                        SQLiteDatabase db = gdh.getReadableDatabase();
+                        db.execSQL("Insert into task (name, team) values (\"" + name + "\", \"" + team + "\")");
+                        db.close();
+                        // ricarico la activity
+                        //((Activity)((AlertDialog)dialog).getContext()).recreate();
                     }
                 });
+                alertDialogBuilder.setNegativeButton("Cancel", null);
                 AlertDialog ad = alertDialogBuilder.create();
                 ad.show();
             }
