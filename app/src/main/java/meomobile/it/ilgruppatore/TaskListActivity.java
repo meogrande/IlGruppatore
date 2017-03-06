@@ -5,13 +5,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +36,9 @@ public class TaskListActivity extends AppCompatActivity {
         // Gets the data repository in write mode
         SQLiteDatabase db = gdh.getReadableDatabase();
 
+        TextView tv = (TextView) findViewById(R.id.tv_tasklist_title);
+        tv.setText("Compiti svolti in " + team);
+
         Cursor c = db.query(
                 DatabaseContract.TaskEntry.TABLE_NAME,  // The table to query
                 new String[]{DatabaseContract.TaskEntry.COLUMN_NAME_ID,
@@ -43,12 +47,21 @@ public class TaskListActivity extends AppCompatActivity {
                 null,    // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                null                                 // The sort order
+                DatabaseContract.TaskEntry.COLUMN_NAME_DATA + " DESC "                                 // The sort order
         );
 
         ListView lv = (ListView) findViewById(R.id.listView_tasks);
         final ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, R.layout.rowtask, R.id.list_item_task_date);
         lv.setAdapter(itemsAdapter);
+
+        // Aggiungo l'evento sul click
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                      @Override
+                                      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                                      }
+                                  }
+        );
 
         /*Carico la lista con le classi. Se premo una classe vedo tutti i compiti salvati*/
         while (c.moveToNext()) {
@@ -85,7 +98,9 @@ public class TaskListActivity extends AppCompatActivity {
                         db.execSQL("Insert into task (name, team) values (\"" + name + "\", \"" + team + "\")");
                         db.close();
                         // ricarico la activity
-                        //((Activity)((AlertDialog)dialog).getContext()).recreate();
+                        //getParent().recreate();
+                        //dialog.getParent().recreate();
+                        TaskListActivity.this.recreate();
                     }
                 });
                 alertDialogBuilder.setNegativeButton("Cancel", null);
